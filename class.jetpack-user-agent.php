@@ -8,13 +8,13 @@ function jetpack_is_mobile( $kind = 'any', $return_matched_agent = false ) {
 	$ua_info = new Jetpack_User_Agent_Info();
 
 	if ( empty( $_SERVER['HTTP_USER_AGENT'] ) || strpos( strtolower( $_SERVER['HTTP_USER_AGENT'] ), 'ipad' ) )
-		return false;
+		return apply_filters('jetpack_is_mobile_filter', false);
 
 	if( $ua_info->is_android_tablet() &&  $ua_info->is_kindle_touch() === false )
-		return false;
+		return apply_filters('jetpack_is_mobile_filter', false);
 
 	if( $ua_info->is_blackberry_tablet() )
-		return false;
+		return apply_filters('jetpack_is_mobile_filter', false);
 
 	if ( $first_run ) {
 		$first_run = false;
@@ -55,7 +55,7 @@ function jetpack_is_mobile( $kind = 'any', $return_matched_agent = false ) {
 	if ( $return_matched_agent )
 		return $matched_agent;
 
-	return $kinds[$kind];
+	return apply_filters('jetpack_is_mobile_filter', $kinds[$kind]);
 }
 
 class Jetpack_User_Agent_Info {
